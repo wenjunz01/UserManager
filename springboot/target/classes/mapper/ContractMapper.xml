@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ContractMapper">
+
+    <sql id="Base_Column_List">
+        id,title,customerid,tripartiteid,business,price,signingdate,dusdate,c_name,phone,address,status,money,annex,rejectReason,generated
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Contract">
+        select
+        contract.*, customer.name customerName ,tripartite.name tripartiteName
+        from contract
+        left join customer
+        on contract.customerid = customer.id
+        left join tripartite
+        on contract.tripartiteid = tripartite.id
+        <where>
+            <if test="id != null"> and contract.id = #{id}</if>
+            <if test="title != null"> and contract.name like concat('%', #{title}, '%')</if>
+            <if test="customerId != null"> and contract.customer_id = #{customerId}</if>
+            <if test="customerName != null"> and customer.name like concat('%', #{customerName}, '%')</if>
+            <if test="tripartiteId != null"> and contract.tripartite_id = #{tripartiteId}</if>
+            <if test="tripartiteName != null"> and tripartite.name like concat('%', #{tripartiteName}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Contract">
+        select
+        <include refid="Base_Column_List" />
+        from contract
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from contract
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Contract" useGeneratedKeys="true">
+        insert into contract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="title != null">title,</if>
+            <if test="customerId != null">customerid,</if>
+            <if test="tripartiteId != null">tripartiteid,</if>
+            <if test="business != null">business,</if>
+            <if test="price != null">price,</if>
+            <if test="money != null">money,</if>
+            <if test="signingdate != null">signingdate,</if>
+            <if test="dusdate != null">dusdate,</if>
+            <if test="cname != null">cname,</if>
+            <if test="phone != null">phone,</if>
+            <if test="address != null">address,</if>
+            <if test="annex != null">annex,</if>
+            <if test="status != null">status,</if>
+            <if test="rejectReason != null">rejectReason,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="title != null">#{title},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="tripartiteId != null">#{tripartiteId},</if>
+            <if test="business != null">#{business},</if>
+            <if test="price != null">#{price},</if>
+            <if test="money != null">#{money},</if>
+            <if test="signingdate != null">#{signingdate},</if>
+            <if test="dusdate != null">#{dusdate},</if>
+            <if test="cname != null">#{cname},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="address != null">#{address},</if>
+            <if test="annex != null">#{annex},</if>
+            <if test="status != null">#{status},</if>
+            <if test="rejectReason != null">#{rejectReason},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Contract">
+        update contract
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="customerId != null">
+                customerid = #{customerId},
+            </if>
+            <if test="tripartiteId != null">
+                tripartiteid = #{tripartiteId},
+            </if>
+            <if test="business != null">
+                business = #{business},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="signingdate != null">
+                signingdate = #{signingdate},
+            </if>
+            <if test="dusdate != null">
+                dusdate = #{dusdate},
+            </if>
+            <if test="cname != null">
+                cname = #{cname},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="money != null">
+                money = #{money},
+            </if>
+            <if test="annex != null">
+                annex = #{annex},
+            </if>
+            <if test="rejectReason != null">
+                rejectReason = #{rejectReason},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

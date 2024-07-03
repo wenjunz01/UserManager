@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ClueMapper">
+
+    <sql id="Base_Column_List">
+        id,name,tel,user,department,duties,sources,cdetails,status,fallback
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Clue">
+        select
+        <include refid="Base_Column_List" />
+        from clue
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="name != null"> and name like concat('%', #{name}, '%')</if>
+            <if test="tel != null"> and tel like concat('%', #{tel}, '%')</if>
+            <if test="user != null"> and user like concat('%', #{user}, '%')</if>
+            <if test="department != null"> and department like concat('%', #{department}, '%')</if>
+            <if test="duties != null"> and duties like concat('%', #{duties}, '%')</if>
+            <if test="sources != null"> and sources like concat('%', #{sources}, '%')</if>
+            <if test="cdetails != null"> and cdetails like concat('%', #{cdetails}, '%')</if>
+            <if test="status != null"> and status like concat('%', #{status}, '%')</if>
+            <if test="fallback != null"> and fallback like concat('%', #{fallback}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Clue">
+        select
+        <include refid="Base_Column_List" />
+        from clue
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from clue
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Clue" useGeneratedKeys="true">
+        insert into clue
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="tel != null">tel,</if>
+            <if test="user != null">user,</if>
+            <if test="department != null">department,</if>
+            <if test="duties != null">duties,</if>
+            <if test="sources != null">sources,</if>
+            <if test="cdetails != null">cdetails,</if>
+            <if test="status != null">status,</if>
+            <if test="fallback != null">fallback,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="user != null">#{user},</if>
+            <if test="department != null">#{department},</if>
+            <if test="duties != null">#{duties},</if>
+            <if test="sources != null">#{sources},</if>
+            <if test="cdetails != null">#{cdetails},</if>
+            <if test="status != null">#{status},</if>
+            <if test="fallback != null">#{fallback},</if>
+        </trim>
+    </insert>
+
+    <insert id="flowup" parameterType="com.example.entity.Clue" useGeneratedKeys="true">
+        insert into publiccustomer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="tel != null">tel,</if>
+            <if test="email != null">email,</if>
+            <if test="address != null">address,</if>
+            <if test="user != null">user,</if>
+            <if test="phone != null">phone,</if>
+            <if test="status != null">status,</if>
+            <if test="level != null">level,</if>
+            <if test="source != null">source,</if>
+            <if test="industry != null">industry,</if>
+            <if test="details != null">details,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="email != null">#{email},</if>
+            <if test="address != null">#{address},</if>
+            <if test="user != null">#{user},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="status != null">#{status},</if>
+            <if test="level != null">#{level},</if>
+            <if test="source != null">#{source},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="details != null">#{details},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Clue">
+        update clue
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="tel != null">
+                tel = #{tel},
+            </if>
+            <if test="user != null">
+                user = #{user},
+            </if>
+            <if test="department != null">
+                department = #{department},
+            </if>
+            <if test="duties != null">
+                duties = #{duties},
+            </if>
+            <if test="sources != null">
+                sources = #{sources},
+            </if>
+            <if test="cdetails != null">
+                cdetails = #{cdetails},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="fallback != null">
+                fallback = #{fallback},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

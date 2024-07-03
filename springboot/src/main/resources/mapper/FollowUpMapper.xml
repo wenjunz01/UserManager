@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.FollowUpMapper">
+
+    <sql id="Base_Column_List">
+        id,record,flname,business,contacts,way,content,time,responsible
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.FollowUp">
+        select
+        <include refid="Base_Column_List" />
+        from followup
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="record != null"> and name like concat('%', #{record}, '%')</if>
+            <if test="flname != null"> and tel like concat('%', #{flname}, '%')</if>
+            <if test="business != null"> and email like concat('%', #{business}, '%')</if>
+            <if test="contacts != null"> and address like concat('%', #{contacts}, '%')</if>
+            <if test="way != null"> and user like concat('%', #{way}, '%')</if>
+            <if test="content != null"> and phone like concat('%', #{content}, '%')</if>
+            <if test="time != null"> and status like concat('%', #{time}, '%')</if>
+            <if test="responsible != null"> and level like concat('%', #{responsible}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.FollowUp">
+        select
+        <include refid="Base_Column_List" />
+        from followup
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from followup
+        where  id = #{id}
+    </delete>
+
+</mapper>

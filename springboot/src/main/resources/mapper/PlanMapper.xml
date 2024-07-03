@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.PlanMapper">
+
+    <sql id="Base_Column_List">
+        id,content,publiccustomerid,time,executor,status
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Plan">
+        select
+        plan.*, publiccustomer.name as publiccustomerName
+        from plan
+        left join publiccustomer
+        on plan.publiccustomerid = publiccustomer.id
+        <where>
+            <if test="id != null"> and plan.id = #{id}</if>
+            <if test="content != null"> and plan.content like concat('%', #{content}, '%')</if>
+            <if test="publiccustomerId != null"> and plan.publiccustomerid = #{publiccustomerId}</if>
+            <if test="publiccustomerName != null"> and publiccustomer.name like concat('%', #{publiccustomerName}, '%')</if>
+        </where>
+        order by plan.id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Plan">
+        select
+        <include refid="Base_Column_List" />
+        from plan
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from plan
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Plan" useGeneratedKeys="true">
+        insert into plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="content != null">content,</if>
+            <if test="publiccustomerId != null">publiccustomerid,</if>
+            <if test="time != null">time,</if>
+            <if test="executor != null">executor,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="content != null">#{content},</if>
+            <if test="publiccustomerId != null">#{publiccustomerId},</if>
+            <if test="time != null">#{time},</if>
+            <if test="executor != null">#{executor},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Plan">
+        update plan
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="publiccustomerId != null">
+                publiccustomerid = #{publiccustomerId},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+            <if test="executor != null">
+                executor = #{executor},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.GoodsMapper">
+
+    <sql id="Base_Column_List">
+        id,name,customerid,contractid,producer,descr,price,num,img,unit,pack,product_no,approve_no,status
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Goods">
+        select
+        goods.*, customer.name customerName, contract.title contractTitle ,contract.status status
+        from goods
+        left join customer
+        on goods.customerid = customer.id
+        left join contract
+        on goods.contractid = contract.id
+        <where>
+            <if test="id != null"> and goods.id = #{id}</if>
+            <if test="name != null"> and goods.name like concat('%', #{name}, '%')</if>
+            <if test="customerId != null"> and goods.customerid = #{customerId}</if>
+            <if test="customerName != null"> and customer.name like concat('%', #{customerName}, '%')</if>
+            <if test="contractId != null"> and goods.contractid = #{contractId}</if>
+            <if test="contractTitle != null"> and contract.title like concat('%', #{contractTitle}, '%')</if>
+            <if test="productNo != null"> and goods.product_no = #{productNo}</if>
+            <if test="approveNo != null"> and goods.approve_no = #{approveNo}</if>
+            <if test="status != null"> and contract.status = '审核已通过'</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Goods">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from goods
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Goods" useGeneratedKeys="true">
+        insert into goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="customerId != null">customerid,</if>
+            <if test="contractId != null">contractid,</if>
+            <if test="producer != null">producer,</if>
+            <if test="descr != null">descr,</if>
+            <if test="price != null">price,</if>
+            <if test="num != null">num,</if>
+            <if test="img != null">img,</if>
+            <if test="unit != null">unit,</if>
+            <if test="pack != null">pack,</if>
+            <if test="productNo != null">product_no,</if>
+            <if test="approveNo != null">approve_no,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="contractId != null">#{contractId},</if>
+            <if test="producer != null">#{producer},</if>
+            <if test="descr != null">#{descr},</if>
+            <if test="price != null">#{price},</if>
+            <if test="num != null">#{num},</if>
+            <if test="img != null">#{img},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="pack != null">#{pack},</if>
+            <if test="productNo != null">#{productNo},</if>
+            <if test="approveNo != null">#{approveNo},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Goods">
+        update goods
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="customerId != null">
+                customerid = #{customerId},
+            </if>
+            <if test="contractId != null">
+                contractid = #{contractId},
+            </if>
+            <if test="producer != null">
+                producer = #{producer},
+            </if>
+            <if test="descr != null">
+                descr = #{descr},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="num != null">
+                num = #{num},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="unit != null">
+                unit = #{unit},
+            </if>
+            <if test="pack != null">
+                pack = #{pack},
+            </if>
+            <if test="productNo != null">
+                product_no = #{productNo},
+            </if>
+            <if test="approveNo != null">
+                approve_no = #{approveNo},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id} 
+    </update>
+
+</mapper>
